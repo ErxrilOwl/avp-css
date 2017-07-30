@@ -60,7 +60,6 @@ namespace JHS_CSS_APP
             
             Console.ReadKey();
         }
-
         #region HelpMethods
 
             public static void RunApp()
@@ -209,16 +208,222 @@ namespace JHS_CSS_APP
 
         #endregion
 
-        public static void DisplayStudentMenu()
+        #region StudentClass
+            public static void DisplayStudentMenu()
+            {
+                Console.Clear();
+                Display.DisplayHeader();
+
+                string str = "[ C L A S S S T U D E N T  M E N U ]";
+                Console.SetCursorPosition((Console.WindowWidth - str.Length) / 2, 5);
+                Console.WriteLine(str);
+
+                str = "[a]. View All Student";
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 15, 12);
+                Console.WriteLine(str);
+
+                str = "[b]. Add Student";
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 15, 14);
+                Console.WriteLine(str);
+
+                str = "[c]. Edit Students";
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 15, 16);
+                Console.WriteLine(str);
+
+                str = "[d]. Delete Student";
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 15, 18);
+                Console.WriteLine(str);
+
+                str = "[e]. Back";
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 15, 20);
+                Console.WriteLine(str);
+            }
+        public static void ViewAllStudent()
         {
             Console.Clear();
             Display.DisplayHeader();
 
-            string str = "[ S T U D E N T  M E N U ]";
+            string str = "[ C L A S S  S T U D E N T  M E N U ]";
             Console.SetCursorPosition((Console.WindowWidth - str.Length) / 2, 5);
             Console.WriteLine(str);
-        }
 
+            string currentDirectory = Directory.GetCurrentDirectory() + "/Students";
+            string[] files = Directory.GetFiles(currentDirectory);
+            ArrayList studentNames = new ArrayList();
+            int ctr = 1;
+            int rowNo = 12;
+
+            str = "Student List";
+            Console.SetCursorPosition((Console.WindowWidth - str.Length) / 2, 10);
+            Console.WriteLine(str);
+
+            string rowLine = "+----+----------------------------------+";
+            string line = "|    |                                  | ";
+
+            Console.SetCursorPosition((Console.WindowWidth - rowLine.Length) / 2, rowNo++);
+            Console.WriteLine(rowLine);
+
+            foreach (var file in files)
+            {
+                string studName = file.Remove(0, currentDirectory.Length + 1);
+                studName = studName.Remove(studName.Length - 4);
+                studentNames.Add(studName);
+
+                Console.SetCursorPosition((Console.WindowWidth - line.Length) / 2, rowNo);
+                Console.WriteLine(line);
+
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 19, rowNo);
+                Console.WriteLine(ctr.ToString());
+
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 13, rowNo);
+                Console.WriteLine(studName);
+
+                rowNo++;
+                ctr++;
+                Console.SetCursorPosition((Console.WindowWidth - rowLine.Length) / 2, rowNo++);
+                Console.WriteLine(rowLine);
+            }
+
+            str = "Enter a student name to view the student info or back to return to menu";
+            Console.SetCursorPosition((Console.WindowWidth - str.Length) / 2, rowNo + 4);
+            Console.WriteLine(str);
+
+            bool isNotOkay = true;
+
+            do
+            {
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 20, rowNo + 6);
+                Console.Write("Enter your choice : ");
+                string userChoice = Console.ReadLine();
+
+                if (userChoice == "back")
+                {
+                    isNotOkay = false;
+                    StudentModule();
+                }
+                else
+                {
+                    bool isPresent = false;
+                    foreach (string classStudentName in studentNames)
+                    {
+                        if (classStudentName == userChoice)
+                            isPresent = true;
+                    }
+
+                    if (isPresent)
+                    {
+                        ShowStudentInfo(userChoice);
+                        isNotOkay = false;
+                    }
+                    else
+                    {
+                        str = "Not listed student name...";
+                        Console.SetCursorPosition((Console.WindowWidth / 2) - 20, rowNo + 8);
+                        Console.Write(str);
+                        Console.SetCursorPosition((Console.WindowWidth / 2) - 20, rowNo + 6);
+                        Console.Write("                                          ");
+                    }
+
+                }
+            } while (isNotOkay);
+        }
+        public static void ShowStudentInfo(string studentNo)
+        {
+            Console.Clear();
+            Display.DisplayHeader();
+
+            string str = "[ C L A S S  S T U D E N T  M E N U ]";
+            Console.SetCursorPosition((Console.WindowWidth - str.Length) / 2, 5);
+            Console.WriteLine(str);
+
+            string currentDirectory = Directory.GetCurrentDirectory() + "/Students/";
+            FileStream input = new FileStream(currentDirectory + studentNo + ".sec", FileMode.OpenOrCreate, FileAccess.Read);
+            StreamReader fin = new StreamReader(input);
+
+            int rowNo = 8;
+            bool toCenter = false;
+            while (!fin.EndOfStream)
+            {
+                str = fin.ReadLine();
+
+                if (str == "MALE") toCenter = true;
+
+                if (toCenter)
+                    Console.SetCursorPosition((Console.WindowWidth - str.Length) / 2, rowNo++);
+                else
+                    Console.SetCursorPosition((Console.WindowWidth / 2) - 20, rowNo++);
+
+                Console.Write(str);
+            }
+
+            if (isBack((Console.WindowWidth / 2) - 20, rowNo + 5))
+                ViewAllSection();
+            else
+                ShowStudentInfo(studentNo);
+        }
+        public static void StudentModule()
+        {
+            DisplayStudentMenu();
+            switch (GetMenuChoice())
+            {
+                case 'a':
+                    ViewAllStudent();
+                    break;
+                case 'b':
+                    AddStudent();
+                    break;
+                case 'c':
+                    DisplayTeacherMenu();
+                    break;
+                case 'd':
+                    break;
+                case 'e':
+                    RunApp();
+                    break;
+            }
+        } 
+        public static void AddStudent()
+        {
+            Console.Clear();
+
+            int yearLevel;
+            string studentName;
+            char studentGender;
+            DateTime birthDate;
+
+            string str = "[ S T U D E N T A D D F O R M ]";
+            Console.SetCursorPosition((Console.WindowWidth - str.Length) / 2, 5);
+            Console.WriteLine(str);
+
+            str = "Enter Year Level : ";
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 15, 12);
+            Console.Write(str);
+            yearLevel = Convert.ToInt32(Console.ReadLine());
+
+            str = "Enter Your Name : ";
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 15, 14);
+            Console.Write(str);
+            studentName = Console.ReadLine();
+
+            str = "Enter Your Gender : ";
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 15, 12);
+            Console.Write(str);
+            studentGender = Convert.ToChar(Console.ReadLine());
+
+            str = "Enter Your BirthDate : ";
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 15, 12);
+            Console.Write(str);
+            birthDate = Convert.ToDateTime(Console.ReadLine());
+
+            //addStudentMenu(yearLevel, studentName, studentGender, birthDate);
+        }
+        public static void addStudentMenu()
+        {
+
+
+
+        }
+        #endregion
 
         #region ClassSection
             public static void DisplaySectionMenu()
@@ -250,7 +455,6 @@ namespace JHS_CSS_APP
                 Console.SetCursorPosition((Console.WindowWidth / 2) - 15, 20);
                 Console.WriteLine(str);
             }
-
             public static void SectionModule()
             {
                 DisplaySectionMenu();
@@ -273,7 +477,6 @@ namespace JHS_CSS_APP
                         break;
                 }
             }
-
             public static void ViewAllSection()
             {
                 Console.Clear();
@@ -363,7 +566,6 @@ namespace JHS_CSS_APP
                     }
                 } while (isNotOkay);
             }
-
             public static void ShowSectionInfo(string sectionID)
             {
                 Console.Clear();
@@ -398,7 +600,6 @@ namespace JHS_CSS_APP
                 else
                     ShowSectionInfo(sectionID);
             }
-
             public static void AddSection()
             {
                 Console.Clear();
@@ -430,7 +631,6 @@ namespace JHS_CSS_APP
 
                 AddSectionMenu(yearLevel, sectionName, teacherName, students);
             }
-
             public static void EditSection()
             {
                 Console.Clear();
@@ -522,7 +722,6 @@ namespace JHS_CSS_APP
                     }
                 } while (isNotOkay);
             }
-
             public static void DeleteSection()
             {
                 Console.Clear();
@@ -613,7 +812,6 @@ namespace JHS_CSS_APP
                     }
                 } while (isNotOkay);
             }
-
             public static ClassSection ReadSection(string sectionName, out string teacherName)
             {
                 FileStream input = new FileStream(Directory.GetCurrentDirectory() + "/Sections/" + sectionName + ".sec", FileMode.OpenOrCreate, FileAccess.Read);
@@ -728,7 +926,6 @@ namespace JHS_CSS_APP
                 fin.Close();
                 return cs;
             }
-
             public static void AddSectionMenu(int yearLevel, string sectionName, string teacherName, ArrayList students)
             {
                 Console.Clear();
@@ -823,7 +1020,6 @@ namespace JHS_CSS_APP
                 }
                 AddSectionMenu(yearLevel, sectionName, teacherName, students);
             }
-
             public static void SaveSection(int yearLevel, string sectionName, string teacherName, ArrayList students)
             {
                 string path = Directory.GetCurrentDirectory() + "/Sections/";
@@ -868,7 +1064,6 @@ namespace JHS_CSS_APP
 
                 fout.Close();
             }
-
             public static void printAllSectionStudents(ArrayList students)
             {
                 string str = "Students List : ";
@@ -896,7 +1091,5 @@ namespace JHS_CSS_APP
             Console.SetCursorPosition((Console.WindowWidth - str.Length) / 2, 5);
             Console.WriteLine(str);
         }
-
-        
     }
 }

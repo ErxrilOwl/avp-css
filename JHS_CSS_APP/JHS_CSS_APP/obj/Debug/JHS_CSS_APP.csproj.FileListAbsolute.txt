@@ -28,3 +28,9 @@ C:\Users\KEENO\Desktop\To Do\JHS_CSS_APP\JHS_CSS_APP\obj\Debug\JHS_CSS_APP.pdb
 C:\Users\KEENO\Desktop\To Do\JHS_CSS_APP\JHS_CSS_APP\bin\Debug\JHS_CSS_APP.exe
 C:\Users\KEENO\Desktop\To Do\JHS_CSS_APP\JHS_CSS_APP\bin\Debug\JHS_CSS_APP.pdb
 C:\Users\KEENO\Desktop\To Do\JHS_CSS_APP\JHS_CSS_APP\obj\Debug\JHS_CSS_APP.csprojResolveAssemblyReference.cache
+C:\Users\Merlinda\Desktop\avp-css\JHS_CSS_APP\JHS_CSS_APP\bin\Debug\JHS_CSS_APP.exe.config
+C:\Users\Merlinda\Desktop\avp-css\JHS_CSS_APP\JHS_CSS_APP\obj\Debug\JHS_CSS_APP.exe
+C:\Users\Merlinda\Desktop\avp-css\JHS_CSS_APP\JHS_CSS_APP\obj\Debug\JHS_CSS_APP.pdb
+C:\Users\Merlinda\Desktop\avp-css\JHS_CSS_APP\JHS_CSS_APP\bin\Debug\JHS_CSS_APP.exe
+C:\Users\Merlinda\Desktop\avp-css\JHS_CSS_APP\JHS_CSS_APP\bin\Debug\JHS_CSS_APP.pdb
+C:\Users\Merlinda\Desktop\avp-css\JHS_CSS_APP\JHS_CSS_APP\obj\Debug\JHS_CSS_APP.csprojResolveAssemblyReference.cache
